@@ -1,9 +1,7 @@
 import { StyleSheet } from "react-native";
-import theme from "./themeOld";
 
 const commonStyles = StyleSheet.create({
     button: {
-        backgroundColor: theme.teritary,
         borderRadius: 10,
         paddingVertical: 8,
         paddingHorizontal: 16,
@@ -11,7 +9,6 @@ const commonStyles = StyleSheet.create({
 
         text: {
             fontSize: 20,
-            color: theme.text,
             textAlign: 'center',
         }
     }
