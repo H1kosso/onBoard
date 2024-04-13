@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { SearchHistory, SearchHistoryTitle } from './SearchHistory';
+import { SearchHistory, SearchHistoryTitle } from '../screens/SearchHistory';
 
 import { TabNavProps } from '../types/MainStackParamList';
 

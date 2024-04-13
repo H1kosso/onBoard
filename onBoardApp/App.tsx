@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { TabNav } from './screens/TabNav';
+import { TabNav } from './nav/TabNav';
 import { SearchGameTitle, SearchGame } from './screens/SearchGame';
 
 const Stack = createNativeStackNavigator();
