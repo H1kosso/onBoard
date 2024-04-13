@@ -1,16 +1,17 @@
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { TabNav } from './screens/TabNav';
+import { SearchGameTitle, SearchGame } from './screens/SearchGame';
 
-import SearchGame from './screens/SearchGame';
-
-const Drawer = createDrawerNavigator();
+const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
 
   return (
-    <Drawer.Navigator>
-      <Drawer.Screen name='SearchGame' component={SearchGame} options={{ title: 'Search a game' }} />
-    </Drawer.Navigator>
-
+    <Stack.Navigator>
+      <Stack.Screen name='TabNav' component={TabNav} options={{ headerShown: false }} />
+      <Stack.Screen name="SearchGame" component={SearchGame}
+        options={({ route, navigation }) => ({ headerTitle: () => <SearchGameTitle route={route} navigation={navigation} /> })} />
+    </Stack.Navigator>
   );
 }
 
