@@ -14,6 +14,6 @@ const BoardGameSchema: Schema = new Schema({
     categories: { type: String, required: true },
 });
 
-const BoardGameModel = mongoose.model<IBoardgame>('onBoard', BoardGameSchema);
+const BoardGameModel = mongoose.model<IBoardgame>('boardgames', BoardGameSchema);
 
 export default BoardGameModel;
