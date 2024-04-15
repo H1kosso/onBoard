@@ -3,9 +3,10 @@ import { Request, Response, Router } from 'express';
 import BoardGameModel from "../models/BoardGameModel";
 import UserModel from "../models/UserModel";
 class UserController implements Controller {
-    public path = '/api/user';
-    public pathRegister = '/api/user/register';
-    public pathLogin = '/api/user/login'
+    public path =          '/api/user';
+    public pathRegister =  '/api/user/register';
+    public pathLogin =     '/api/user/login'
+    public pathID =        '/api/user/id'
     public router = Router();
 
     constructor() {
@@ -16,6 +17,7 @@ class UserController implements Controller {
         this.router.post(this.pathRegister, this.register);
         this.router.get(this.pathLogin, this.login);
         this.router.delete(this.path, this.deleteAccount)
+        this.router.get(this.pathID, this.getIdAndEmailOfUser)
     }
 
     private register = async (request: Request, response: Response) => {
@@ -69,6 +71,27 @@ class UserController implements Controller {
             response.status(500).json({ error: 'Deleting account failed' });
         }
     };
+
+    private getIdAndEmailOfUser = async (request: Request, response: Response) => {
+        const { username } = request.query;
+        try {
+            const query = {username};
+            const user = await UserModel.findOne(query);
+
+            if (!user) {
+                return response.status(404).json({error: 'User not found'});
+            }
+
+            return response.status(200).json({
+                id: user.id,
+                username: user.username,
+                email: user.email
+            });
+        } catch (error) {
+            console.error('Error:', error);
+            return response.status(500).json({error: 'Error occured'});
+        }
+    }
 }
 
 
