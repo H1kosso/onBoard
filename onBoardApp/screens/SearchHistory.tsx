@@ -26,7 +26,7 @@ export function SearchHistory() {
 
     return (
         <SafeAreaView style={{ backgroundColor: paperTheme.colors.background }}>
-            <Text>Search history or some other shit</Text>
+            <Text>Search history/categories or other parameters but idk if api will support this</Text>
         </SafeAreaView>
     );
 }
