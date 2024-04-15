@@ -9,7 +9,7 @@ const commonStyles = StyleSheet.create({
 
         text: {
             fontSize: 20,
-            textAlign: 'center',
+            textAlign: 'center'            
         }
     }
 });

@@ -8,7 +8,9 @@
     "noImplicitAny": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    // determines the algorithm for finding/resolving modules
+    "moduleResolution": "Node"    
   },
   "include": [
     "lib/**/*.ts"
