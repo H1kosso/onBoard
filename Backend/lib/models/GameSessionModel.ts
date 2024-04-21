@@ -16,6 +16,6 @@ const GameSessionSchema: Schema = new Schema({
     winnerId: { type: Number, required: true }
 });
 
-const GameSessionModel = mongoose.model<IGameSession>('onBoard', GameSessionSchema);
+const GameSessionModel = mongoose.model<IGameSession>('gameSession', GameSessionSchema);
 
 export default GameSessionModel;

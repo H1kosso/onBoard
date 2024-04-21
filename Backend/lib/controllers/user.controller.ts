@@ -47,8 +47,7 @@ class UserController implements Controller {
             if (!passwordMatch) {
                 return response.status(401).json({ error: 'Invalid password' });
             }
-
-            return response.status(200).json({ message: 'Login successful' });
+            return response.status(200).json({ message: 'Login successful', id: user._id.toString() });
         } catch (error) {
             console.error('Error:', error);
             return response.status(500).json({ error: 'Could not login this user' });
