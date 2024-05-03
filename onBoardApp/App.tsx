@@ -13,7 +13,7 @@ function App(): JSX.Element {
       <Stack.Navigator>
         <Stack.Screen name='TabNav' component={TabNav} options={{ headerShown: false }} />
         <Stack.Screen name="SearchGame" component={SearchGame}
-          options={({ route, navigation }) => ({ headerTitle: () => <SearchGameTitle route={route} navigation={navigation} /> })} />
+        options={({ route, navigation }) => ({ headerTitle: () => <SearchGameTitle route={route} navigation={navigation} /> })} />
         <Stack.Screen name="GameDetails" component={GameDetails} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
