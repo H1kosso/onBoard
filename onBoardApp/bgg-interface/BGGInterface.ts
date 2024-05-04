@@ -1,34 +1,49 @@
 import axios from 'axios';
 import xml2js from 'xml2js';
 
-async function searchBoardGame(query : string) {
+async function searchBoardGame(query) {
     try {
-        const response = await axios.get(`https://boardgamegeek.com/xmlapi2/search?query=${query}}`);
+        const response = await axios.get(`https://boardgamegeek.com/xmlapi2/search?query=${query}&type=boardgame`);
 
         const parser = new xml2js.Parser();
         const xmlData = response.data;
         let jsonData = await parser.parseStringPromise(xmlData);
 
-        let gamesData = [];
+        let gamesIDs = [];
 
         if (jsonData.items.$.total === '0') {
-            console.log('Brak wyników dla zapytania:', query);
+            console.log('No results found for query:', query);
             return;
         }
 
         const items = jsonData.items.item;
         items.forEach(item => {
-            gamesData.push({
-                name: item.name[0].$.value,
-                id: item.$.id,
-                type: item.$.type,
-                yearPublished: item.yearpublished[0].$.value
-            });
+            gamesIDs.push(item.$.id);
         });
 
-        return(JSON.stringify(gamesData, null, 2));
+        const idsString = gamesIDs.join(',');
+
+        const thingResponse = await axios.get(`https://boardgamegeek.com/xmlapi2/thing?id=${idsString}`);
+
+        const thingParser = new xml2js.Parser();
+        const thingXmlData = thingResponse.data;
+        let thingJsonData = await thingParser.parseStringPromise(thingXmlData);
+
+        let games = [];
+
+        thingJsonData.items.item.forEach(game => {
+            let gameData = {
+                categories: game.link.filter(link => link.$.type === 'boardgamecategory').map(link => link.$.value),
+                description: game.description[0],
+                image: game.image[0],
+                name: game.name[0].$.value,
+                id: game.$.id
+            };
+            games.push(gameData);
+        });
+        return games;
     } catch (error) {
-        console.error('Błąd podczas pobierania danych:', error);
+        console.error('Error fetching data:', error);
     }
 }
 
@@ -62,7 +77,7 @@ async function getBoardGameById(id: string) {
 
         console.log( JSON.stringify(gameData, null, 2));
     } catch (error) {
-        console.error('Błąd podczas pobierania danych:', error);
+        console.error('Error fetching data:', error);
     }
 }
 
