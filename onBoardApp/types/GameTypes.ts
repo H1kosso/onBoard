@@ -14,10 +14,14 @@ export type GameDetailsType = {
     gameId: string,
     imageUrl: string,
     title: string,
-    category: string,
     description: string,
-    suggestedNumOfPlayers: number,
-    suggestedPlayerAge: number,
+    yearPublished: number,
     players: Extrema,
-    playtime: Extrema
+    playtime: Extrema,
+    minAge: number,
+    categories: string[]
+    mechanics: string[],
+    designers: string[],
+    artists: string[],
+    publishers: string[]
 }

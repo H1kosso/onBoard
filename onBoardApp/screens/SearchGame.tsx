@@ -12,6 +12,7 @@ import { TextInput } from 'react-native';
 
 import { SearchGameProps } from '../types/MainStackParamList';
 import { GameCardType } from '../types/GameTypes';
+import { searchBoardGame } from '../bgg-interface/BGGInterface';
 
 export function SearchGameTitle({ navigation }: SearchGameProps) {
     const theme = useTheme();
@@ -51,22 +52,27 @@ export function SearchGameTitle({ navigation }: SearchGameProps) {
 }
 
 export function SearchGame({ navigation, route }: SearchGameProps) {
-    const mockItems: GameCardType[] = [];
+    const [foundGames, setFoundGames] = useState<GameCardType[]>();
 
     useEffect(() => {
         if (route.params.searchText) {
-            console.log('SearchText changed -> call to BGG api');
-            for (let i = 0; i < 20; i++) {
-                mockItems.push({ gameId: i.toString(), title: 'Game of Thrones', category: 'Action', imageUrl: 'https://cf.geekdo-images.com/vbWhXsB-FHNxJWrUAFEjTg__thumb/img/sSvH-SbDEC-2zF5BvDGNxsytGFs=/fit-in/200x150/filters:strip_icc()/pic231219.jpg' })
-            }
+            searchBoardGame(route.params.searchText)
+                .then((games) => {
+                    setFoundGames(games);
+                });
         }
     }, [route.params.searchText])
 
     return (
         <SafeAreaView>
-            <FlatList
-                data={mockItems}
-                renderItem={({ item }) => <GameItem itemProps={item} navProps={{ navigation: navigation, route: route }} />} />
+            {
+                foundGames !== undefined
+                    ? <FlatList
+                        data={foundGames}
+                        renderItem={({ item }) => <GameItem itemProps={item} navProps={{ navigation: navigation, route: route }} />} />
+                    : null
+            }
+
         </SafeAreaView>
     );
 };
