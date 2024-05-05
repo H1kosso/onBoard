@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SearchHistory } from './screens/SearchHistory';
 import SplashScreen from './screens/SplashScreen';
-import React from 'react';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,7 +32,7 @@ function App(): JSX.Element {
       <Stack.Screen name='TabNav' component={TabNav} options={{ headerShown: false }} />
       <Stack.Screen name="SearchGame" component={SearchGame}
         options={({ route, navigation }) => ({ headerTitle: () => <SearchGameTitle route={route} navigation={navigation} /> })} />
-      <Stack.Screen name="GameDetails" component={GameDetails} options={{headerShown: false}}/>
+      <Stack.Screen name="GameDetails" component={GameDetails} />
       <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
       <Stack.Screen name="Register" component={Register}  options={{headerShown: false}}/>
       <Stack.Screen name='SearchHistory' component={SearchHistory} />

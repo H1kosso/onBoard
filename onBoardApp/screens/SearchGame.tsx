@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import {
     SafeAreaView,
@@ -86,7 +86,7 @@ function GameItem(props: GameItemProps) {
     const iconSize = 54;
     const navigation = props.navProps.navigation;
     const itemProps = props.itemProps;
-
+    const helperUri = "https://cf.geekdo-images.com/NaVK216SnjDz3VLr5kKOAg__original/img/_fR_-LU6T4zfa901SvBAx3V8O3k=/0x0/filters:format(jpeg)/pic350302.jpg";
     return (
         <Card
             style={{ marginVertical: 4, marginHorizontal: 8 }}
@@ -98,7 +98,7 @@ function GameItem(props: GameItemProps) {
                     <Avatar.Image
                         {...props}
                         size={iconSize}
-                        source={{ uri: itemProps.imageUrl }}
+                        source={{ uri: itemProps.imageUrl ? itemProps.imageUrl : helperUri }}
                     />
                 }
                 leftStyle={{ marginRight: 32 }}

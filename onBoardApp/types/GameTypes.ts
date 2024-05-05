@@ -1,6 +1,6 @@
 export type GameCardType = {
     gameId: string,
-    imageUrl: string,
+    imageUrl: string | undefined,
     title: string,
     categories: string[]
 }
