@@ -1,9 +1,16 @@
 import Controller from '../interfaces/controller.interface';
 import { Request, Response, Router } from 'express';
 import BoardGameModel from "../models/BoardGameModel";
+import {Schema} from "mongoose";
+
+
+
+
 class BoardgameController implements Controller {
-    public path = '/api/boardgames';
-    public pathSingleBg = '/api/boardgame';
+    public pathAll = '/api/boardgame/all';
+    public path = '/api/boardgame';
+    public pathId = '/api/boardgame/id';
+    public pathName = '/api/boardgame/name';
     public router = Router();
 
     constructor() {
@@ -11,13 +18,14 @@ class BoardgameController implements Controller {
     }
 
     private initializeRoutes() {
-        this.router.get(    this.pathSingleBg, this.getSingleBoardgame);
-        this.router.delete( this.pathSingleBg, this.deleteSingleBoardgame)
-        this.router.post(   this.pathSingleBg, this.createBoardgame);
-        this.router.get(    this.path,         this.getAllBoardgames);
+        this.router.get(    this.pathName, this.getSingleBoardgameByName);
+        this.router.get(    this.pathId, this.getSingleBoardgameById);
+        this.router.delete( this.path, this.deleteSingleBoardgame)
+        this.router.post(   this.path, this.createBoardgame);
+        this.router.get(    this.pathAll,         this.getAllBoardgames);
     }
 
-    private getSingleBoardgame = async (request: Request, response: Response) => {
+    private getSingleBoardgameByName = async (request: Request, response: Response) => {
         const { title } = request.query;
         try {
             const query = { title };
@@ -33,6 +41,25 @@ class BoardgameController implements Controller {
             response.status(500).json({ error: 'Getting game failed' });
         }
     };
+
+private getSingleBoardgameById = async (request: Request, response: Response) => {
+    const { id } = request.query;
+    console.log(id)
+    try {
+        const query = { gameId: id };
+        const boardgame = await BoardGameModel.findOne(query);
+
+        if (!boardgame) {
+            return response.status(404).json({ error: 'Game not found' });
+        }
+
+        return response.status(200).json(boardgame);
+    } catch (error) {
+        console.error('Error:', error);
+        return response.status(500).json({ error: 'Getting game failed' });
+    }
+};
+
 
     private deleteSingleBoardgame = async (request: Request, response: Response) => {
         const { title } = request.query;
@@ -50,8 +77,8 @@ class BoardgameController implements Controller {
             response.status(500).json({ error: 'Deleting game failed' });
         }
     };
+
     private getAllBoardgames = async (request: Request, response: Response) => {
-        console.log("ascd")
         try {
             const boardgames = await BoardGameModel.find();
             response.status(201);

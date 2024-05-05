@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "110767044615",
+    "project_id": "onboard-422308",
+    "storage_bucket": "onboard-422308.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:110767044615:android:9af34b2a4e1d5ce72c12a2",
+        "android_client_info": {
+          "package_name": "com.onboardapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "110767044615-71rvt1h5eh00sg6ll796kps45lb7gtec.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnabYNukfGlCskPKZ4RSudq7TRb_jugaQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "110767044615-71rvt1h5eh00sg6ll796kps45lb7gtec.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "110767044615-e6sanskeehj8t355aeokamc40sea5qi6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.onboardapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
