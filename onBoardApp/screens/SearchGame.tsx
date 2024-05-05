@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import {
     SafeAreaView,
@@ -61,7 +61,7 @@ export function SearchGame({ navigation, route }: SearchGameProps) {
                     setFoundGames(games);
                 });
         }
-    }, [route.params.searchText])
+    }, [route.params])
 
     return (
         <SafeAreaView>

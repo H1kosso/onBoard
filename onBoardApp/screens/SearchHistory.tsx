@@ -11,6 +11,9 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { TabNavProps } from '../types/MainStackParamList';
+import Button = Icon.Button;
+import {searchBoardGame} from "../bgg-interface/BGGInterface";
+import React from 'react';
 
 export function SearchHistoryTitle({ navigation }: TabNavProps) {
     const theme = useTheme();
@@ -43,6 +46,10 @@ export function SearchHistory() {
     return (
         <SafeAreaView style={{ backgroundColor: paperTheme.colors.background }}>
             <Text style={{ color: paperTheme.colors.onBackground }}>Search history/categories or other parameters but idk if api will support this</Text>
+
+            <Button onPress={searchBoardGame}>Test</Button>
+
+
         </SafeAreaView>
     );
 }

@@ -16,7 +16,7 @@ const commonStyles = StyleSheet.create({
         width: 150,
 
         text: {
-            fontSize: 15,
+            fontSize: 20,
             textAlign: 'center',
         }
     },
