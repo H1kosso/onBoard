@@ -35,11 +35,6 @@ export function TabNav({ navigation, route }: TabNavProps) {
                     tabBarIcon: (tabInfo) => <Icon name='account-box' size={24} color={tabInfo.focused ? theme.colors.primary : theme.colors.text} />
                 }}
                 />
-            <Tab.Screen name='SearchHistory' component={SearchHistory} options={{
-                title: 'Search Game',
-                headerTitle: () => <SearchHistoryTitle navigation={navigation} route={route} />,
-                tabBarIcon: (tabInfo) => <Icon name='search' size={24} color={tabInfo.focused ? theme.colors.primary : theme.colors.text} />
-            }} />
             <Tab.Screen name="Login" component={Login} options={{
                 title: "Login",
             }}
