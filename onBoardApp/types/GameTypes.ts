@@ -2,7 +2,7 @@ export type GameCardType = {
     gameId: string,
     imageUrl: string,
     title: string,
-    category: string
+    categories: string[]
 }
 
 type Extrema = {

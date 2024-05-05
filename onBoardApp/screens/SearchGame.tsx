@@ -93,7 +93,7 @@ function GameItem(props: GameItemProps) {
             onPress={() => navigation.navigate("GameDetails", { gameId: itemProps.gameId, gameTitle: itemProps.title })}>
             <Card.Title
                 title={itemProps.title}
-                subtitle={itemProps.category}
+                subtitle={itemProps.categories.join(', ')}
                 left={(props) =>
                     <Avatar.Image
                         {...props}
