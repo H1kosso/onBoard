@@ -12,7 +12,8 @@ import auth from '@react-native-firebase/auth';
 export function Login() {
     const [nick, setNick] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const navigation = useNavigation();
+    const navigation = useNavigation();    
+
 
     const registerUser = (): void => {
         navigation.navigate('Register');
@@ -80,7 +81,6 @@ export function Login() {
             }
         }
     };
-
 
     return (
         <SafeAreaView style={commonStyles.centerContainer}>

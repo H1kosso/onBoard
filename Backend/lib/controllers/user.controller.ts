@@ -18,7 +18,6 @@ class UserController implements Controller {
         this.router.post(this.pathLogin, this.login);
         this.router.delete(this.path, this.deleteAccount);
         this.router.get(this.pathID, this.getIdAndEmailOfUser);
-
     }
 
 

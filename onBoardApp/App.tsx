@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SearchHistory } from './screens/SearchHistory';
 import SplashScreen from './screens/SplashScreen';
+import React from 'react';
 
 const Stack = createNativeStackNavigator();
 

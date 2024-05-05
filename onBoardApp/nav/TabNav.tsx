@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
+import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useTheme as useNavTheme } from "@react-navigation/native";
 import { SearchHistory, SearchHistoryTitle } from '../screens/SearchHistory';

@@ -13,6 +13,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { TabNavProps } from '../types/MainStackParamList';
 import Button = Icon.Button;
 import {searchBoardGame} from "../bgg-interface/BGGInterface";
+import React from 'react';
 
 export function SearchHistoryTitle({ navigation }: TabNavProps) {
     const theme = useTheme();
