@@ -8,12 +8,13 @@ import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-goo
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
+import env from "../env";
 
 export function Login() {
     const [nick, setNick] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const navigation = useNavigation();    
-
+    const navigation = useNavigation();
+    const localhost = env.IP_ADDRESS
 
     const registerUser = (): void => {
         navigation.navigate('Register');
@@ -61,7 +62,7 @@ export function Login() {
             return;
         }
         try {
-            const response = await axios.post('http://192.168.2.164:3100/api/user/login', {
+            const response = await axios.post(`${localhost}/api/user/login`, {
                 username: nick,
                 password: password,
             });

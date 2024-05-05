@@ -5,13 +5,14 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import env from "../env";
 
 
 export function Register() {
     const [nick, setNick] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-
+    const localhost = env.IP_ADDRESS
     const navigation = useNavigation();
 
     const handleRegister = async () => {
@@ -21,7 +22,7 @@ export function Register() {
             return;
         }
         try {
-            const response = await axios.post('http://192.168.2.164:3100/api/user/register', {
+            const response = await axios.post(`${localhost}/api/user/register`, {
                 username: nick,
                 email: email,
                 password: password,

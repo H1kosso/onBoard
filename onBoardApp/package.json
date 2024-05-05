@@ -20,7 +20,7 @@
     "@react-navigation/native-stack": "^6.9.26",
     "axios": "^1.6.8",
     "eas-cli": "^8.0.0",
-    "events": "^3.3.0",
+    "events": "^3.3.0", ,
     "react": "18.2.0",
     "react-native": "0.72.12",
     "react-native-app-auth": "^7.1.3",
