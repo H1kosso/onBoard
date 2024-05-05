@@ -3,10 +3,11 @@ import { Request, Response, Router } from 'express';
 import BoardGameModel from "../models/BoardGameModel";
 import UserModel from "../models/UserModel";
 class UserController implements Controller {
-    public path =          '/api/user';
-    public pathRegister =  '/api/user/register';
-    public pathLogin =     '/api/user/login'
-    public pathID =        '/api/user/id'
+
+    public path = '/api/user';
+    public pathRegister = '/api/user/register';
+    public pathLogin = '/api/user/login'
+    public pathID = '/api/user/id'
     public router = Router();
 
     constructor() {
@@ -15,20 +16,21 @@ class UserController implements Controller {
 
     private initializeRoutes() {
         this.router.post(this.pathRegister, this.register);
-        this.router.get(this.pathLogin, this.login);
-        this.router.delete(this.path, this.deleteAccount)
-        this.router.get(this.pathID, this.getIdAndEmailOfUser)
+        this.router.post(this.pathLogin, this.login);
+        this.router.delete(this.path, this.deleteAccount);
+        this.router.get(this.pathID, this.getIdAndEmailOfUser);
     }
 
+
     private register = async (request: Request, response: Response) => {
-        const {username, email, password} = request.body;
+        const { username, email, password } = request.body;
         try {
-            const newUser = new UserModel({username, email, password});
+            const newUser = new UserModel({ username, email, password });
             await newUser.save();
             response.status(201).json(newUser);
         } catch (error) {
             console.error('Error:', error);
-            response.status(500).json({error: 'Couldnt register this user'});
+            response.status(500).json({ error: 'Couldnt register this user' });
         }
     };
     private login = async (request: Request, response: Response) => {
@@ -47,8 +49,7 @@ class UserController implements Controller {
             if (!passwordMatch) {
                 return response.status(401).json({ error: 'Invalid password' });
             }
-
-            return response.status(200).json({ message: 'Login successful' });
+            return response.status(200).json({ message: 'Login successful', id: user._id.toString() });
         } catch (error) {
             console.error('Error:', error);
             return response.status(500).json({ error: 'Could not login this user' });
@@ -75,11 +76,11 @@ class UserController implements Controller {
     private getIdAndEmailOfUser = async (request: Request, response: Response) => {
         const { username } = request.query;
         try {
-            const query = {username};
+            const query = { username };
             const user = await UserModel.findOne(query);
 
             if (!user) {
-                return response.status(404).json({error: 'User not found'});
+                return response.status(404).json({ error: 'User not found' });
             }
 
             return response.status(200).json({
@@ -89,7 +90,7 @@ class UserController implements Controller {
             });
         } catch (error) {
             console.error('Error:', error);
-            return response.status(500).json({error: 'Error occured'});
+            return response.status(500).json({ error: 'Error occured' });
         }
     }
 }
