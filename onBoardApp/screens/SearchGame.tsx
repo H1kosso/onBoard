@@ -2,21 +2,19 @@ import { useEffect, useState, useRef } from 'react';
 
 import {
     SafeAreaView,
-    View,
-    Text,
     FlatList,
-    Image,
     TouchableOpacity
 } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import { TextInput, Card, Avatar, Button } from 'react-native-paper';
+import { Card, Avatar, useTheme } from 'react-native-paper';
+import { TextInput } from 'react-native';
 
-import { useTheme as useNavTheme } from '@react-navigation/native';
 import { SearchGameProps } from '../types/MainStackParamList';
 import { GameCardType } from '../types/GameTypes';
 
 export function SearchGameTitle({ navigation }: SearchGameProps) {
-    const theme = useNavTheme();
+    const theme = useTheme();
     const [text, setText] = useState("");
     const inputRef = useRef(); // Workaround for autoFocus
 
@@ -24,23 +22,29 @@ export function SearchGameTitle({ navigation }: SearchGameProps) {
         <SafeAreaView style={{
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'flex-end',
+            paddingHorizontal: 16,
+            backgroundColor: theme.colors.surface,
         }}>
+            <Icon name='search' size={30} color={theme.colors.onSurface} />
             <TextInput
                 value={text}
                 onChangeText={(text: string) => setText(text)}
                 onSubmitEditing={() => { navigation.setParams({ searchText: text }) }}
-                style={{ minWidth: '80%', marginStart: 16, fontSize: 18, backgroundColor: theme.colors.card }}
+                style={{
+                    fontWeight: 'bold',
+                    fontSize: 18,
+                    marginLeft: 8,
+                    color: theme.colors.onSurface,
+                    minWidth: '50%'
+                }}
                 ref={inputRef}
                 onLayout={() => inputRef.current.focus()}
             />
-            {
-                text !== "" ?
-                    <TouchableOpacity onPress={() => setText("")} style={{}}>
-                        <Text>✖</Text>
-                    </TouchableOpacity>
-                    : <></>
-            }
+
+            <TouchableOpacity onPress={() => setText("")} style={{}}>
+                <Icon name='cancel' size={20} color={theme.colors.onSurface} />
+            </TouchableOpacity>
+
 
         </SafeAreaView>
     );
