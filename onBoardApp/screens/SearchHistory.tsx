@@ -45,7 +45,10 @@ export function SearchHistory() {
     return (
         <SafeAreaView style={{ backgroundColor: paperTheme.colors.background }}>
             <Text style={{ color: paperTheme.colors.onBackground }}>Search history/categories or other parameters but idk if api will support this</Text>
+
             <Button onPress={searchBoardGame}>Test</Button>
+
+
         </SafeAreaView>
     );
 }

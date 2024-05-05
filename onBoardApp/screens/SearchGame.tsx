@@ -54,13 +54,13 @@ export function SearchGame({ navigation, route }: SearchGameProps) {
     const mockItems: GameCardType[] = [];
 
     useEffect(() => {
-        if (route.params.searchText) {
+        if (route.params && route.params.searchText) {
             console.log('SearchText changed -> call to BGG api');
             for (let i = 0; i < 20; i++) {
                 mockItems.push({ gameId: i.toString(), title: 'Game of Thrones', category: 'Action', imageUrl: 'https://cf.geekdo-images.com/vbWhXsB-FHNxJWrUAFEjTg__thumb/img/sSvH-SbDEC-2zF5BvDGNxsytGFs=/fit-in/200x150/filters:strip_icc()/pic231219.jpg' })
             }
         }
-    }, [route.params.searchText])
+    }, [route.params])
 
     return (
         <SafeAreaView>
