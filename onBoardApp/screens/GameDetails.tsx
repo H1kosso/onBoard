@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Image, ScrollView, View } from 'react-native';
+import { Image, ScrollView } from 'react-native';
 
 import { useTheme as useNavTheme } from "@react-navigation/native";
 import { IconButton, Text, Card, useTheme, DataTable, ActivityIndicator, Button } from "react-native-paper";
@@ -10,6 +10,7 @@ import { GameDetailsProps } from "../types/MainStackParamList";
 import { GameDetailsType } from "../types/GameTypes";
 import { getBoardGameById } from "../bgg-interface/BGGInterface";
 import WebDisplay from "../utils/WebDisplay";
+import DataTableCellTitle from "../components/DataTableCellTitle";
 
 type ParamtersCell = {
     icon: string | undefined,
@@ -27,10 +28,7 @@ function GameInfoDataTable({ data }: { data: ParamtersCell[] }) {
                 data.map((cellValue, index) => (
                     <DataTable.Row key={index}>
                         <DataTable.Cell>
-                            <View style={{ flexDirection: 'row' }}>
-                                <Icon name={cellValue.icon} size={20} color={theme.colors.onSurface} />
-                                <Text style={{ marginLeft: 8, color: theme.colors.onSurface }}>{cellValue.title}</Text>
-                            </View>
+                            <DataTableCellTitle iconName={cellValue.icon} title={cellValue.title} />
                         </DataTable.Cell>
                         <DataTable.Cell >
                             <Text style={[{ color: theme.colors.tertiary, fontWeight: 'bold', paddingVertical: 4 }, cellValue.style]}>{cellValue.value}</Text>
@@ -107,7 +105,6 @@ export function GameDetails({ navigation, route }: GameDetailsProps) {
 
                 <Button
                     icon="play-circle-outline"
-                    mode="contained-tonal"
                     onPress={() => navigation.navigate("GameSession", { gameId: gameDetails.gameId, gameTitle: gameDetails.title })}
                     buttonColor={theme.colors.tertiary}
                     textColor={theme.colors.onTertiary}

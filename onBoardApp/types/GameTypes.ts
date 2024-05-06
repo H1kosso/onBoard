@@ -25,3 +25,13 @@ export type GameDetailsType = {
     artists: string[],
     publishers: string[]
 }
+
+export type GameSessionType = {
+    username: string,
+    gameId: string,
+    location: string,
+    date: string,
+    players: string,
+    winner: string,
+    playtime: number,
+}
