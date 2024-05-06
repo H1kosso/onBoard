@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Image, ScrollView, View } from 'react-native';
 
 import { useTheme as useNavTheme } from "@react-navigation/native";
-import { IconButton, Text, Card, useTheme, DataTable, ActivityIndicator } from "react-native-paper";
+import { IconButton, Text, Card, useTheme, DataTable, ActivityIndicator, Button } from "react-native-paper";
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { StyleProp, TextStyle } from "react-native";
 
@@ -104,13 +104,25 @@ export function GameDetails({ navigation, route }: GameDetailsProps) {
                     </Card.Content>
                     <GameInfoDataTable data={descriptionCellData} />
                 </Card>
+
+                <Button
+                    icon="play-circle-outline"
+                    mode="contained-tonal"
+                    onPress={() => navigation.navigate("GameSession", { gameId: gameDetails.gameId, gameTitle: gameDetails.title })}
+                    buttonColor={theme.colors.tertiary}
+                    textColor={theme.colors.onTertiary}
+                    style={{ marginTop: 16, width: '80%', alignSelf: 'center' }}
+                    labelStyle={{ fontSize: 18 }}
+                >
+                    Play the game
+                </Button>
             </ScrollView>
         );
 
     }
     else {
         return (
-            <ActivityIndicator size={'large'} style={{ marginTop: 32 }} />
+            <ActivityIndicator color={theme.colors.secondary} size={'large'} style={{ marginTop: 32 }} />
         );
     }
 }

@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import { Card, Avatar, useTheme } from 'react-native-paper';
+import { Card, Avatar, useTheme, ActivityIndicator } from 'react-native-paper';
 import { TextInput } from 'react-native';
 
 import { SearchGameProps } from '../types/MainStackParamList';
@@ -30,7 +30,7 @@ export function SearchGameTitle({ navigation }: SearchGameProps) {
             <TextInput
                 value={text}
                 onChangeText={(text: string) => setText(text)}
-                onSubmitEditing={() => { navigation.setParams({ searchText: text }) }}
+                onSubmitEditing={() => navigation.setParams({ searchText: text })}
                 style={{
                     fontWeight: 'bold',
                     fontSize: 18,
@@ -52,10 +52,11 @@ export function SearchGameTitle({ navigation }: SearchGameProps) {
 }
 
 export function SearchGame({ navigation, route }: SearchGameProps) {
-    const [foundGames, setFoundGames] = useState<GameCardType[]>();
+    const [foundGames, setFoundGames] = useState<GameCardType[] | undefined>([]);
 
     useEffect(() => {
         if (route.params.searchText) {
+            setFoundGames(undefined);
             searchBoardGame(route.params.searchText)
                 .then((games) => {
                     setFoundGames(games);
@@ -70,7 +71,7 @@ export function SearchGame({ navigation, route }: SearchGameProps) {
                     ? <FlatList
                         data={foundGames}
                         renderItem={({ item }) => <GameItem itemProps={item} navProps={{ navigation: navigation, route: route }} />} />
-                    : null
+                    : <ActivityIndicator size={'large'} style={{ marginTop: 32 }} />
             }
 
         </SafeAreaView>
