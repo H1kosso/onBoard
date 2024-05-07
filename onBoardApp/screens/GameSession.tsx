@@ -7,25 +7,37 @@ import CommunityIcon from "react-native-vector-icons/MaterialCommunityIcons"
 import { GameSessionProps } from "../types/MainStackParamList";
 import { GameSessionType } from "../types/GameTypes";
 import DataTableCellTitle from "../components/DataTableCellTitle";
+import { getUsername } from "../utils/userCredentials";
 
 type GameDetailsType = {
-    playtime: number,
-    location: string
+    playtime: number | undefined,
+    location: string | undefined
 };
 
-export default function GameSession({ navigation, route }: GameSessionProps) {
-    const player = 'Dawid'; // TODO: Get this from token or sth.
+type SubmitButtonProps = {
+    buttonColor: string,
+    textColor: string,
+    contentText: string
+}
 
+export default function GameSession({ navigation, route }: GameSessionProps) {
     const [friendText, setFriendText] = useState<string>("");
-    const [friendContainer, setFriendContainer] = useState<string[]>([player]);
+    const [friendContainer, setFriendContainer] = useState<string[]>([]);
     const [winnerIndex, setWinnerIndex] = useState<number>();
 
-    const [gameDetails, setGameDetails] = useState<GameDetailsType>({ playtime: 0, location: "" });
+    const [gameDetails, setGameDetails] = useState<GameDetailsType>({ playtime: undefined, location: undefined });
 
     const theme = useTheme();
 
+    const [submitButtonProps, setSubmitButtonProps] = useState<SubmitButtonProps>({ buttonColor: theme.colors.primary, textColor: theme.colors.onPrimary, contentText: "Save" });
+
     useEffect(() => {
         navigation.setOptions({ title: route.params.gameTitle })
+        getUsername()
+            .then((appUserName) => {
+                if (appUserName)
+                    setFriendContainer([appUserName]);
+            });
     }, []);
 
     const onFriendTextChange = (text: string) => {
@@ -52,21 +64,29 @@ export default function GameSession({ navigation, route }: GameSessionProps) {
         return index === 0;
     };
 
+    const getAppUserName = () => {
+        return friendContainer[0];
+    }
+
 
     const onSubmitGameSession = () => {
         const date = new Date();
-        if (winnerIndex !== undefined && gameDetails) {
+        if (winnerIndex !== undefined && gameDetails.location && gameDetails.playtime) {
             const dataToSend: GameSessionType = {
-                date: date.toLocaleDateString(),
+                username: getAppUserName(),
                 gameId: route.params.gameId,
                 location: gameDetails.location,
+                date: date.toLocaleDateString(),
                 players: friendContainer.join(','),
                 playtime: gameDetails.playtime,
-                username: player,
                 winner: friendContainer[winnerIndex]
             };
             console.log(`GameSession - submit game record: ${JSON.stringify(dataToSend)}`);
-            navigation.goBack();
+            setSubmitButtonProps({ buttonColor: theme.colors.tertiary, textColor: theme.colors.onTertiary, contentText: "Success!" });
+            setTimeout(() => { navigation.goBack(); }, 1000);
+        }
+        else {
+            setSubmitButtonProps({ buttonColor: theme.colors.error, textColor: theme.colors.onError, contentText: "Something's missing" });
         }
 
     };
@@ -115,7 +135,7 @@ export default function GameSession({ navigation, route }: GameSessionProps) {
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 4 }}>
                                 <TextInput
                                     keyboardType="numeric"
-                                    onChangeText={(text: string) => setGameDetails({ ...gameDetails, playtime: parseInt(text) })}
+                                    onChangeText={(text: string) => { setGameDetails({ ...gameDetails, playtime: parseInt(text) }) }}
                                     style={[{ color: theme.colors.primary, backgroundColor: theme.colors.backdrop }, style.detailInput]}
                                     cursorColor={theme.colors.primary}
                                 />
@@ -129,7 +149,7 @@ export default function GameSession({ navigation, route }: GameSessionProps) {
                         </DataTable.Cell>
                         <DataTable.Cell>
                             <TextInput
-                                onChangeText={(text: string) => setGameDetails({ ...gameDetails, location: text })}
+                                onChangeText={(text: string) => { setGameDetails({ ...gameDetails, location: text }); }}
                                 style={[{ marginVertical: 4, color: theme.colors.primary, backgroundColor: theme.colors.backdrop }, style.detailInput]}
                                 cursorColor={theme.colors.primary}
                             />
@@ -139,12 +159,12 @@ export default function GameSession({ navigation, route }: GameSessionProps) {
             </Card>
             <Button
                 onPress={onSubmitGameSession}
-                buttonColor={theme.colors.primary}
-                textColor={theme.colors.onPrimary}
+                buttonColor={submitButtonProps.buttonColor}
+                textColor={submitButtonProps.textColor}
                 style={{ marginTop: 8, width: '80%', alignSelf: 'center', padding: 4 }}
                 labelStyle={{ fontSize: 20 }}
             >
-                Save
+                {submitButtonProps.contentText}
             </Button>
         </SafeAreaView>
     );

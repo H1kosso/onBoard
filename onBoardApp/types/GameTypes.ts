@@ -35,3 +35,12 @@ export type GameSessionType = {
     winner: string,
     playtime: number,
 }
+
+export type GameCollectionType = {
+    username: string,
+    gameId: string,
+    owned: boolean,
+    butPrice: number,
+    whenBought: string,
+    favourite: boolean
+}

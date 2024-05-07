@@ -9,7 +9,7 @@ import { StyleProp, TextStyle } from "react-native";
 import { GameDetailsProps } from "../types/MainStackParamList";
 import { GameDetailsType } from "../types/GameTypes";
 import { getBoardGameById } from "../bgg-interface/BGGInterface";
-import WebDisplay from "../utils/WebDisplay";
+import WebDisplay from "../components/WebDisplay";
 import DataTableCellTitle from "../components/DataTableCellTitle";
 
 type ParamtersCell = {
@@ -76,14 +76,14 @@ export function GameDetails({ navigation, route }: GameDetailsProps) {
             })
     }, [])
 
+    useEffect(() => {
+        navigation.setOptions({ headerRight: () => <IconButton icon="star" size={28} iconColor={isFav ? navTheme.colors.primary : navTheme.colors.border} onPress={onFavouriteButton} /> })
+    }, [isFav])
+
     const onFavouriteButton = () => {
         console.log('Favourite state changed -> call to BoardAPI')
         setIsFav(!isFav);
     }
-
-    useEffect(() => {
-        navigation.setOptions({ headerRight: () => <IconButton icon="star" size={28} iconColor={isFav ? navTheme.colors.primary : navTheme.colors.border} onPress={onFavouriteButton} /> })
-    }, [isFav])
 
     if (gameDetails && detailsCellData && descriptionCellData) {
         return (

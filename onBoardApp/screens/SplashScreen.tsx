@@ -6,7 +6,7 @@ const SplashScreen = ({ navigation }: any) => {
   useEffect(() => {
     const checkLoginStatus = async () => {
       const token = await AsyncStorage.getItem('@token');
-      if (true) { // Done for development purpose 
+      if (token) { 
         setTimeout(() => {
           navigation.reset({
             index: 0,
