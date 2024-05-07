@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, Text, TouchableOpacity, View, TextInput, Image, ToastAndroid } from 'react-native';
 import commonStyles from '../styles/commonStyles';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -8,8 +8,17 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
-export function Account () {
+export function Account() {
     const navigation = useNavigation();
+    const [nick, setNick] = useState<string | null>();
+
+    useEffect(() => {
+        async function fetchNick() {
+            const storedNick = await AsyncStorage.getItem("@token");
+            setNick(storedNick);            
+        }
+        fetchNick();
+    }, []);
 
     const handleLogout = () => {
         AsyncStorage.removeItem("@token");
@@ -18,7 +27,7 @@ export function Account () {
     }
     return (
         <SafeAreaView style={commonStyles.centerContainer}>
-            <Text>Hello user!</Text>
+            <Text>Hello {nick}</Text>
             <TouchableOpacity onPress={handleLogout}>
                 <Text>Log out</Text>
             </TouchableOpacity>
