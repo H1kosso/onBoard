@@ -8,13 +8,13 @@ import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-goo
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
-import env from "../env";
+import env from '../env';
 
 export function Login() {
     const [nick, setNick] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const navigation = useNavigation();
-    const localhost = env.IP_ADDRESS
+    const localhost = env.IP_ADDRESS;
 
     const registerUser = (): void => {
         navigation.navigate('Register');
@@ -36,7 +36,8 @@ export function Login() {
             const googleCredentials = auth.GoogleAuthProvider.credential(idToken);
 
             ToastAndroid.show(`Hello ${user.givenName}`, ToastAndroid.SHORT);
-            await AsyncStorage.setItem("@token", "true");
+            console.log(user);
+            await AsyncStorage.setItem("@token", user.email);
             navigation.navigate("TabNav");
 
             return auth().signInWithCredential(googleCredentials);
@@ -69,7 +70,7 @@ export function Login() {
 
             if (response.status === 200) {
                 ToastAndroid.show(`Hello ${nick}`, ToastAndroid.SHORT);
-                AsyncStorage.setItem("@token", "true");
+                AsyncStorage.setItem("@token", nick);
                 navigation.navigate("TabNav");
             }
         } catch (error: any) {

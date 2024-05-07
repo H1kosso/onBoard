@@ -5,15 +5,15 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import env from "../env";
+import env from '../env.js';
 
 
 export function Register() {
     const [nick, setNick] = useState<string>('');
     const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const localhost = env.IP_ADDRESS
+    const [password, setPassword] = useState<string>('');    
     const navigation = useNavigation();
+    const localhost = env.IP_ADDRESS;
 
     const handleRegister = async () => {
 
@@ -29,7 +29,7 @@ export function Register() {
             });
 
             if (response.status === 201) {
-                await AsyncStorage.setItem("@token", "true");
+                await AsyncStorage.setItem("@token", nick);
                 navigation.navigate("TabNav");
 
             } else {
