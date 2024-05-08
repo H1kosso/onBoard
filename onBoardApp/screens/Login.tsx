@@ -9,6 +9,8 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
 import env from '../env';
+import iconNames from '../types/icons';
+import { CommonActions } from '@react-navigation/native';
 
 export function Login() {
     const [nick, setNick] = useState<string>('');
@@ -27,6 +29,16 @@ export function Login() {
 
     }, []);
 
+    const getRandomImage = async () => {
+        try {
+          const randomIndex = Math.floor(Math.random() * iconNames.length);
+          return iconNames[randomIndex].path;
+        } catch (error) {
+          console.error('Error getting random image:', error);
+          return null;
+        }
+      };
+
 
     const onGoogleButtonPress = async () => {
         try {
@@ -37,8 +49,23 @@ export function Login() {
 
             ToastAndroid.show(`Hello ${user.givenName}`, ToastAndroid.SHORT);
             console.log(user);
+            
             await AsyncStorage.setItem("@token", user.email);
-            navigation.navigate("TabNav");
+            await AsyncStorage.setItem("@photo", user.photo);
+
+            navigation.dispatch(
+                CommonActions.reset({
+                    index: 0,
+                    routes: [
+                        {
+                            name: 'TabNav',
+                            state: {
+                                routes: [{ name: 'SearchHistory' }]
+                            }
+                        }
+                    ],
+                })
+            );
 
             return auth().signInWithCredential(googleCredentials);
 
@@ -69,9 +96,24 @@ export function Login() {
             });
 
             if (response.status === 200) {
+                const randomPhotoPath: string | null = await getRandomImage();
                 ToastAndroid.show(`Hello ${nick}`, ToastAndroid.SHORT);
-                AsyncStorage.setItem("@token", nick);
-                navigation.navigate("TabNav");
+                await AsyncStorage.setItem("@token", nick);
+               
+
+                navigation.dispatch(
+                    CommonActions.reset({
+                        index: 0,
+                        routes: [
+                            {
+                                name: 'TabNav',
+                                state: {
+                                    routes: [{ name: 'SearchHistory' }]
+                                }
+                            }
+                        ],
+                    })
+                );
             }
         } catch (error: any) {
             if (error.response.status === 404) {
@@ -130,7 +172,7 @@ export function Login() {
                         size={GoogleSigninButton.Size.Wide}
                         color={GoogleSigninButton.Color.Light}
                         onPress={onGoogleButtonPress}
-                    />
+                    />                    
                 </View>
             </KeyboardAwareScrollView>
         </SafeAreaView>

@@ -56,6 +56,8 @@ const commonStyles = StyleSheet.create({
         color: '#000'
 
     },
+
+    
     
 });
 

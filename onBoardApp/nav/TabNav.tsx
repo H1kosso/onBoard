@@ -8,7 +8,7 @@ import { TabNavProps } from '../types/MainStackParamList';
 import { Account } from '../screens/Account';
 
 import { Login } from '../screens/Login';
-import {Collection} from "../screens/Collection";
+import { Collection } from "../screens/Collection";
 
 
 const Tab = createBottomTabNavigator();
@@ -27,6 +27,13 @@ export function TabNav({ navigation, route }: TabNavProps) {
                     tabBarIcon: (tabInfo) => <Icon name='search' size={24} color={tabInfo.focused ? theme.colors.primary : theme.colors.text} />
                 }}
             />
+            <Tab.Screen name="Collection"
+                component={Collection}
+                options={{
+                    title: "Collection",
+                    tabBarIcon: (tabInfo) => <Icon name='storage' size={24} color={tabInfo.focused ? theme.colors.primary : theme.colors.text} />
+                }}
+            />
             <Tab.Screen
                 name="Account"
                 component={Account}
@@ -34,15 +41,11 @@ export function TabNav({ navigation, route }: TabNavProps) {
                     title: "Account",
                     tabBarIcon: (tabInfo) => <Icon name='account-box' size={24} color={tabInfo.focused ? theme.colors.primary : theme.colors.text} />
                 }}
-                />
-            <Tab.Screen name="Login" component={Login} options={{
+            />
+            {/* <Tab.Screen name="Login" component={Login} options={{
                 title: "Login",
             }}
-            />
-            <Tab.Screen name="Collection" component={Collection} options={{
-                title: "Collection",
-            }}
-            />
+            /> */}
         </Tab.Navigator>
     );
 }
