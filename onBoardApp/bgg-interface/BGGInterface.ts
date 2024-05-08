@@ -64,7 +64,6 @@ async function getBoardGameById(id: string) {
             artists: item.link && item.link.filter((link: { $: { type: string } }) => link.$.type === 'boardgameartist').map((link: { $: { value: string } }) => link.$.value) || [],
             publishers: item.link && item.link.filter((link: { $: { type: string } }) => link.$.type === 'boardgamepublisher').map((link: { $: { value: string } }) => link.$.value) || []
         };
-
         return gameData;
     } catch (error) {
         console.error('Error fetching data:', error);
