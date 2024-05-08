@@ -30,7 +30,7 @@ export function Register() {
 
             if (response.status === 201) {
                 await AsyncStorage.setItem("@token", nick);
-                navigation.navigate("TabNav");
+                navigation.navigate("TabNav", {screen: "SearchHistory"});
 
             } else {
                 const errorData = await response.data;
