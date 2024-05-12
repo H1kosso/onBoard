@@ -4,6 +4,7 @@ import { getBoardGameById, searchBoardGame } from "../bgg-interface/BGGInterface
 import { useEffect, useState } from "react";
 import env from "../env";
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function Collection() {
     const localhost = env.IP_ADDRESS;
@@ -12,27 +13,33 @@ export function Collection() {
     const [finished, setFinished] = useState(false);
 
     useEffect(() => {
-        const url = `${localhost}/api/collection?username=test`;
-        axios.get(url)
-            .then(response => {
-                setCollection(response.data);
+        AsyncStorage.getItem("@token")
+            .then(nick => {
+                const url = `${localhost}/api/collection?username=${nick}`;
+                axios.get(url)
+                    .then(response => {
+                        setCollection(response.data);
 
-                const gameIds = response.data.map(game => game.gameId);
-                const gamePromises = gameIds.map(id => getBoardGameById(id));
+                        const gameIds = response.data.map(game => game.gameId);
+                        const gamePromises = gameIds.map(id => getBoardGameById(id));
 
-                Promise.all(gamePromises)
-                    .then(gameDetails => {
-                        // Flatten the array of arrays into a single array
-                        const flattenedGameDetails = gameDetails.flat();
-                        setGames(mergeGameData(flattenedGameDetails, response.data));
-                        setFinished(true);
+                        Promise.all(gamePromises)
+                            .then(gameDetails => {
+                                // Flatten the array of arrays into a single array
+                                const flattenedGameDetails = gameDetails.flat();
+                                setGames(mergeGameData(flattenedGameDetails, response.data));
+                                setFinished(true);
+                            })
+                            .catch(error => {
+                                console.error('Error fetching game details:', error);
+                            });
                     })
                     .catch(error => {
-                        console.error('Error fetching game details:', error);
+                        console.error("Błąd:", error);
                     });
             })
             .catch(error => {
-                console.error("Błąd:", error);
+                console.error("Error retrieving username from AsyncStorage:", error);
             });
     }, []);
 
