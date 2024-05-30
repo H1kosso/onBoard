@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SearchHistory } from './screens/SearchHistory';
 import SplashScreen from './screens/SplashScreen';
 import GameSession from './screens/GameSession';
+import {AddGame} from "./screens/AddGame";
 
 const Stack = createNativeStackNavigator();
 
@@ -37,6 +38,7 @@ function App(): JSX.Element {
       <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
       <Stack.Screen name="Register" component={Register}  options={{headerShown: false}}/>
       <Stack.Screen name='GameSession' component={GameSession} options={{ title: 'Create the game session' }} />
+      <Stack.Screen name='AddGame' component={AddGame} options={{ title: 'Add game to collection' }} />
     </Stack.Navigator>
   );
 }

@@ -11,6 +11,8 @@ import { GameDetailsType } from "../types/GameTypes";
 import { getBoardGameById } from "../bgg-interface/BGGInterface";
 import WebDisplay from "../components/WebDisplay";
 import DataTableCellTitle from "../components/DataTableCellTitle";
+import {AddGame} from "./AddGame";
+import env from "../env";
 
 type ParamtersCell = {
     icon: string | undefined,
@@ -112,6 +114,16 @@ export function GameDetails({ navigation, route }: GameDetailsProps) {
                     labelStyle={{ fontSize: 18 }}
                 >
                     Play the game
+                </Button>
+                <Button
+                    icon="content-save-all"
+                    onPress={() => navigation.navigate("AddGame", { gameId: gameDetails.gameId, gameTitle: gameDetails.title })}
+                    buttonColor={theme.colors.tertiary}
+                    textColor={theme.colors.onTertiary}
+                    style={{ marginTop: 16, width: '80%', alignSelf: 'center' }}
+                    labelStyle={{ fontSize: 18 }}
+                >
+                   Add Game to collection
                 </Button>
             </ScrollView>
         );

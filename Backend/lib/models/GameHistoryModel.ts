@@ -7,6 +7,7 @@ interface IGameHistory extends Document {
     date: string,
     players: string, //coma separeted list of usernames
     winner: string,
+    playtime: number
 }
 
 const GameHistorySchema: Schema = new Schema({
@@ -16,6 +17,7 @@ const GameHistorySchema: Schema = new Schema({
     date: { type: String, required: true },
     players: { type: String, required: false }, //coma separeted list of users
     winner: { type: String, required: true },
+    playtime: {type: Number, required: true}
 });
 
 const GameHistoryModel = mongoose.model<IGameHistory>('gameHistory', GameHistorySchema);

@@ -20,9 +20,9 @@ class GameHistoryController implements Controller {
     }
 
     private createGame = async (request: Request, response: Response) => {
-        const {username, gameId, location, date, players, winner} = request.body;
+        const {username, gameId, location, date, players, winner, playtime} = request.body;
         try {
-            const newGame = new GameHistoryModel({username, gameId, location, date, players, winner});
+            const newGame = new GameHistoryModel({username, gameId, location, date, players, winner, playtime});
             await newGame.save();
             response.status(201).json(newGame);
         } catch (error) {
@@ -35,7 +35,7 @@ class GameHistoryController implements Controller {
         const {username} = request.query;
         try {
             const query = {username};
-            const games = await GameHistoryModel.find();
+            const games = await GameHistoryModel.find(query);
 
             if (!games || games.length === 0) {
                 response.status(404).json({error: 'Games not found'});
