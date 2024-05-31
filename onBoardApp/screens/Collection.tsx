@@ -78,11 +78,6 @@ export function Collection() {
     );
 }
 
-type GameItemProps = {
-    itemProps: GameCardType,
-    navProps: SearchGameProps
-}
-
 function GameItem(props: GameItemProps) {
     const iconSize = 54;
     const itemProps = props.itemProps;    
