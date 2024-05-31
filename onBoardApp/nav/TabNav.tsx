@@ -8,6 +8,7 @@ import { TabNavProps } from '../types/MainStackParamList';
 import { Account } from '../screens/Account';
 
 import { Collection } from "../screens/Collection";
+import {Challenges} from "../screens/Challenges";
 
 
 const Tab = createBottomTabNavigator();
@@ -32,6 +33,14 @@ export function TabNav({ navigation, route }: TabNavProps) {
                     headerTitle: () => <SearchHistoryTitle navigation={navigation} route={route} />,
                     tabBarIcon: (tabInfo) => <Icon name='search' size={24} color={tabInfo.focused ? theme.colors.primary : theme.colors.text} />
                 }}
+            />
+            <Tab.Screen
+                name='Challenges'
+                component={Challenges}
+                options={{
+                    title: 'Challenges',
+                    tabBarIcon: (tabInfo) => <Icon name='format-list-numbered' size={24} color={tabInfo.focused ? theme.colors.primary : theme.colors.text} />
+                   }}
             />
             <Tab.Screen
                 name="Account"

@@ -74,7 +74,7 @@ export function Collection() {
     );
 }
 
-function GameItem(props: GameItemProps) {
+function GameItem(props) {
     const iconSize = 54;
     const itemProps = props.itemProps;
     const helperUri = "https://cf.geekdo-images.com/NaVK216SnjDz3VLr5kKOAg__original/img/_fR_-LU6T4zfa901SvBAx3V8O3k=/0x0/filters:format(jpeg)/pic350302.jpg";

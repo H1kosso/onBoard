@@ -10,6 +10,8 @@ import { SearchHistory } from './screens/SearchHistory';
 import SplashScreen from './screens/SplashScreen';
 import GameSession from './screens/GameSession';
 import {AddGame} from "./screens/AddGame";
+import {Challenges} from "./screens/Challenges";
+import {AddChallenge} from "./screens/AddChallenge";
 
 const Stack = createNativeStackNavigator();
 
@@ -39,6 +41,8 @@ function App(): JSX.Element {
       <Stack.Screen name="Register" component={Register}  options={{headerShown: false}}/>
       <Stack.Screen name='GameSession' component={GameSession} options={{ title: 'Create the game session' }} />
       <Stack.Screen name='AddGame' component={AddGame} options={{ title: 'Add game to collection' }} />
+        <Stack.Screen name='Challenges' component={Challenges} options={{title: 'Challenges'}}/>
+        <Stack.Screen name='AddChallenge' component={AddChallenge} options={{title: 'Add new challenge'}}/>
     </Stack.Navigator>
   );
 }
