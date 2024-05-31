@@ -27,7 +27,10 @@ export type GameDetailsType = {
 }
 
 export type GameSessionType = {
+    _id: string,
     username: string,
+    image: string,
+    title: string,
     gameId: string,
     location: string,
     date: string,

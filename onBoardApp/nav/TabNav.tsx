@@ -8,6 +8,7 @@ import { TabNavProps } from '../types/MainStackParamList';
 import { Account } from '../screens/Account';
 
 import { Collection } from "../screens/Collection";
+import { Stats } from '../screens/Stats';
 
 
 const Tab = createBottomTabNavigator();
@@ -17,6 +18,14 @@ export function TabNav({ navigation, route }: TabNavProps) {
 
     return (
         <Tab.Navigator>
+            <Tab.Screen name="Stats"
+                component={Stats}
+                options={{
+                    title: "Game history",
+                    tabBarIcon: (tabInfo) => <Icon name='poll' size={24} color={tabInfo.focused ? theme.colors.primary : theme.colors.text} />
+                }}
+            />
+
             <Tab.Screen name="Collection"
                 component={Collection}
                 options={{

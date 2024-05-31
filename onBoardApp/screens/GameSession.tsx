@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SafeAreaView, StyleSheet, TextInput, View } from "react-native";
+import { SafeAreaView, StyleSheet, TextInput, ToastAndroid, View } from "react-native";
 
 import { Card, Chip, Text, useTheme, Icon, DataTable, Button } from "react-native-paper";
 import CommunityIcon from "react-native-vector-icons/MaterialCommunityIcons"
@@ -8,6 +8,8 @@ import { GameSessionProps } from "../types/MainStackParamList";
 import { GameSessionType } from "../types/GameTypes";
 import DataTableCellTitle from "../components/DataTableCellTitle";
 import { getUsername } from "../utils/userCredentials";
+import axios from "axios";
+import env from "../env";
 
 type GameDetailsType = {
     playtime: number | undefined,
@@ -30,6 +32,8 @@ export default function GameSession({ navigation, route }: GameSessionProps) {
     const theme = useTheme();
 
     const [submitButtonProps, setSubmitButtonProps] = useState<SubmitButtonProps>({ buttonColor: theme.colors.primary, textColor: theme.colors.onPrimary, contentText: "Save" });
+
+    const localhost = env.IP_ADDRESS;
 
     useEffect(() => {
         navigation.setOptions({ title: route.params.gameTitle })
@@ -69,18 +73,28 @@ export default function GameSession({ navigation, route }: GameSessionProps) {
     }
 
 
-    const onSubmitGameSession = () => {
+    const onSubmitGameSession = async () => {
         const date = new Date();
+        const formattedDate = `${String(date.getDate()).padStart(2, '0')}-${String(date.getMonth() + 1).padStart(2, '0')}-${date.getFullYear()}`;
+
         if (winnerIndex !== undefined && gameDetails.location && gameDetails.playtime) {
-            const dataToSend: GameSessionType = {
+            const cleanedFriends = friendContainer.map(f => f.trim());
+            const dataToSend: GameSessionType = {                
                 username: getAppUserName(),
                 gameId: route.params.gameId,
                 location: gameDetails.location,
-                date: date.toLocaleDateString(),
-                players: friendContainer.join(','),
+                date: formattedDate,
+                players: cleanedFriends.join(','),
                 playtime: gameDetails.playtime,
-                winner: friendContainer[winnerIndex]
+                winner: cleanedFriends[winnerIndex]
             };
+
+            try {
+                axios.post(`${localhost}/api/gamehistory`, dataToSend);
+
+            } catch (error) {
+                ToastAndroid.show("Something wrong while saving game session", ToastAndroid.SHORT);
+            }
             console.log(`GameSession - submit game record: ${JSON.stringify(dataToSend)}`);
             setSubmitButtonProps({ buttonColor: theme.colors.tertiary, textColor: theme.colors.onTertiary, contentText: "Success!" });
             setTimeout(() => { navigation.goBack(); }, 1000);
