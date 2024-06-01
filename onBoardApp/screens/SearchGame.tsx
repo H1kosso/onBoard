@@ -3,21 +3,35 @@ import { useEffect, useState, useRef } from 'react';
 import {
     SafeAreaView,
     FlatList,
-    TouchableOpacity
+    TouchableOpacity,
+    TextInput
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { Card, Avatar, useTheme, ActivityIndicator } from 'react-native-paper';
-import { TextInput } from 'react-native';
 
 import { SearchGameProps } from '../types/MainStackParamList';
 import { GameCardType } from '../types/GameTypes';
 import { searchBoardGame } from '../bgg-interface/BGGInterface';
+import { addHistoryEntry } from '../utils/userHistory';
 
-export function SearchGameTitle({ navigation }: SearchGameProps) {
+export function SearchGameTitle({ navigation, route }: SearchGameProps) {
     const theme = useTheme();
-    const [text, setText] = useState("");
+    const [text, setText] = useState<string>();
     const inputRef = useRef(); // Workaround for autoFocus
+
+    useEffect(() => {
+        const newText = route.params.searchText;
+        if (newText) {
+            setText(newText);
+        }
+    }, [])
+
+    const onSubmitSearchText = () => {
+        if (text)
+            addHistoryEntry(text);
+        navigation.setParams({ searchText: text })
+    }
 
     return (
         <SafeAreaView style={{
@@ -30,7 +44,7 @@ export function SearchGameTitle({ navigation }: SearchGameProps) {
             <TextInput
                 value={text}
                 onChangeText={(text: string) => setText(text)}
-                onSubmitEditing={() => navigation.setParams({ searchText: text })}
+                onSubmitEditing={onSubmitSearchText}
                 style={{
                     fontWeight: 'bold',
                     fontSize: 18,
@@ -39,7 +53,7 @@ export function SearchGameTitle({ navigation }: SearchGameProps) {
                     minWidth: '50%'
                 }}
                 ref={inputRef}
-                onLayout={() => inputRef.current.focus()}
+                onLayout={text ? undefined : () => inputRef.current.focus()}
             />
 
             <TouchableOpacity onPress={() => setText("")} style={{}}>
@@ -55,9 +69,10 @@ export function SearchGame({ navigation, route }: SearchGameProps) {
     const [foundGames, setFoundGames] = useState<GameCardType[] | undefined>([]);
 
     useEffect(() => {
-        if (route.params.searchText) {
+        const text = route.params.searchText;
+        if (text) {
             setFoundGames(undefined);
-            searchBoardGame(route.params.searchText)
+            searchBoardGame(text)
                 .then((games) => {
                     setFoundGames(games);
                 });
